@@ -26,12 +26,6 @@ module at {
         (t: any, key: string, index: number): void;
     }
 
-    function instantiate(moduleName: string, name: string, mode: string): IClassAnnotationDecorator {
-        return (target: any): void => {
-            angular.module(moduleName)[mode](name, target);
-        };
-    }
-
     export function attachInjects(target: any, ...args: any[]): any {
         (target.$inject || []).forEach((item: string, index: number) => {
             target.prototype[(item.charAt(0) === '$' ? '$' : '$$') + item] = args[index];
@@ -39,10 +33,32 @@ module at {
         return target;
     }
 
+    /**
+    return a module. If module doesn't exist it will be created
+    */
+    export function getOrCreateModule( moduleName:string, requires:string[] = []):angular.IModule {
+      var mod:angular.IModule;
+      try {
+          mod = angular.module(moduleName);
+      }
+      catch( e ) {
+         mod = angular.module(moduleName, requires);
+      }
+
+      return mod;
+    }
+
+///////////////////////////////////////////////////////////////////////////////
+// INJECT ANNOTATION
+///////////////////////////////////////////////////////////////////////////////
+
     export interface IInjectAnnotation {
         (...args: any[]): IClassAnnotationDecorator;
     }
 
+    /**
+    inject an argument
+    */
     export function inject(...args: string[]): at.IClassAnnotationDecorator {
         return (target: any, key?: string, index?: number): void => {
             if (angular.isNumber(index)) {
@@ -53,27 +69,53 @@ module at {
             }
         };
     }
+///////////////////////////////////////////////////////////////////////////////
+// SERVICE ANNOTATION
+///////////////////////////////////////////////////////////////////////////////
 
     export interface IServiceAnnotation {
         (moduleName: string, serviceName: string): IClassAnnotationDecorator;
     }
 
+    /**
+    inject a service
+    */
     export function service(moduleName: string, serviceName: string): at.IClassAnnotationDecorator {
-        return instantiate(moduleName, serviceName, 'service');
+        return (target: any): void => {
+           getOrCreateModule(moduleName).service( serviceName, target);
+        };
+
     }
+
+///////////////////////////////////////////////////////////////////////////////
+// CONTROLLER ANNOTATION
+///////////////////////////////////////////////////////////////////////////////
 
     export interface IControllerAnnotation {
         (moduleName: string, ctrlName: string): IClassAnnotationDecorator;
     }
 
+    /**
+    Inject a controller
+    */
     export function controller(moduleName: string, ctrlName: string): at.IClassAnnotationDecorator {
-        return instantiate(moduleName, ctrlName, 'controller');
+        return (target: any): void => {
+           getOrCreateModule(moduleName).controller( ctrlName, target);
+        };
+
     }
+
+///////////////////////////////////////////////////////////////////////////////
+// DIRECTIVE ANNOTATION
+///////////////////////////////////////////////////////////////////////////////
 
     export interface IDirectiveAnnotation {
         (moduleName: string, directiveName: string): IClassAnnotationDecorator;
     }
 
+    /**
+    inject a directive
+    */
     export function directive(moduleName: string, directiveName: string): at.IClassAnnotationDecorator {
         return (target: any): void => {
             let config: angular.IDirective;
@@ -90,9 +132,13 @@ module at {
                     config; /* istanbul ignore next */
             }, {controller: target, scope: Boolean(target.templateUrl)});
 
-            angular.module(moduleName).directive(directiveName, () => (config));
+            getOrCreateModule(moduleName).directive(directiveName, () => (config));
         };
     }
+
+///////////////////////////////////////////////////////////////////////////////
+// CLASSFACTORY ANNOTATION
+///////////////////////////////////////////////////////////////////////////////
 
     export interface IClassFactoryAnnotation {
         (moduleName: string, className: string): IClassAnnotationDecorator;
@@ -107,7 +153,7 @@ module at {
             if (target.$inject && target.$inject.length > 0) {
                 factory.$inject = target.$inject.slice(0);
             }
-            angular.module(moduleName).factory(className, factory);
+            getOrCreateModule(moduleName).factory(className, factory);
         };
     }
     /* tslint:enable:no-any */
