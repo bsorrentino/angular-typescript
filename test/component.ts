@@ -4,38 +4,33 @@ module test {
 
     'use strict';
 
-    @at.component('test', 'TestRealComponentCtrl')
-    export class TestRealComponentCtrl {
+    @at.component('test', 'testComponent')
+    export class TestComponent {
 
-        public static template: angular.IComponentTemplateFn = (tElement: angular.IAugmentedJQuery) => {
-            tElement.addClass('test-component');
-            return '<span>{{ name }}</span><span>{{ $ctrl.name }}</span>';
+        public static template: angular.IComponentTemplateFn = () => {
+            return '<span>{{ $ctrl.name }}</span>';
         };
 
         // And the rest are simple Ctrl instance members
         public name: string;
 
-        constructor(
-            /* tslint:disable:variable-name */
-            @at.inject('$parse') private $$parse: angular.IParseService
-            /* tslint:enable:variable-name */
-        ) {
+        constructor() {
             this.name = 'FirstTestCtrl';
         }
 
         public $onInit(): void  {
-          this.$$parse('name').assign(this, name);
         }
 
     }
 
 }
 
-describe('TestRealComponentCtrl', () => {
+describe('test-component', () => {
 
-  it('should be an instance of TestRealComponentCtrl component', () => {
-    expect( test.TestRealComponentCtrl ).toBeDefined();
+  it('TestComponent must be defned', () => {
+    expect( test.TestComponent ).toBeDefined();
   });
+
 });
 
 /*

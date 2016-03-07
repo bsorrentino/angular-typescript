@@ -110,22 +110,17 @@ module at {
     export function component(moduleName: string, componentName: string): at.IClassAnnotationDecorator {
         return (target: any): void => {
             let config: angular.IComponentOptions;
-            const ctrlName: string =  angular.isString(target.controller) ?
-                                      target.controller.split(' ').shift() :
-                                      null;
-            /* istanbul ignore else */
-            if (ctrlName) {
-                controller(moduleName, ctrlName)(target);
-            }
+            
             config = componentProperties.reduce((
                 config: angular.IComponentOptions,
                 property: string
             ) => {
-                return angular.isDefined(target[property]) ? angular.extend(config, {[property]: target[property]}) :
-                    config; /* istanbul ignore next */
+                return angular.isDefined(target[property]) ? 
+                    angular.extend(config, {[property]: target[property]}) :
+                    config; 
             }, {controller: target});
 
-            getOrCreateModule(moduleName).component(componentName, () => (config));
+            getOrCreateModule(moduleName).component(componentName, config);
         };
     }
 
