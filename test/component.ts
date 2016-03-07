@@ -31,20 +31,9 @@ module test {
 
 }
 
-describe('# About Controller', () => {
-  var parse;
-
-  beforeEach(() => {
-    angular.mock.module('test');
-
-    angular.mock.inject(_$parse_ => {
-      parse = _$parse_;
-    });
-
-  });
+describe('TestRealComponentCtrl', () => {
 
   it('should be an instance of TestRealComponentCtrl component', () => {
-    console.log( 'TestRealComponentCtrl', test.TestRealComponentCtrl);
     expect( test.TestRealComponentCtrl ).toBeDefined();
   });
 });
