@@ -1,6 +1,6 @@
 {
   "name": "angular-typescript",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "TypeScript 1.5+ annotations (decorators) for AngularJS 1.x",
   "repository": {
     "type": "git",
@@ -11,6 +11,9 @@
     "AngularJS"
   ],
   "author": "Jakub Strojewski <jakub.strojewski@gmail.com>",
+  "contributors": [
+    { "name": "bsorrentino", "email":"bartolomeo.sorrentino@gmail.com" }
+  ],
   "license": "WTFPL",
   "dependencies": {},
   "devDependencies": {
