@@ -7,7 +7,7 @@ var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 
 gulp.task('ts-build', function () {
-    return gulp.src(['at-*.ts', 'typings/browser/**/*.d.ts', 'test/**/*.ts']).pipe(ts({
+    return gulp.src(['at-*.ts', 'typings/browser.d.ts', 'typings/browser/**/*.d.ts', 'test/**/*.ts']).pipe(ts({
         declarationFiles: false,
         experimentalDecorators: true,
         noExternalResolve: true,

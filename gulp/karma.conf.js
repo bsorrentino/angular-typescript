@@ -8,8 +8,7 @@ module.exports = function (config) {
             '../.tmp/at-angular-resource.js',
             '../bower_components/angular-mocks/angular-mocks.js',
             '../.tmp/module.js',
-            '../.tmp/*.js',
-            '../test/*.coffee'
+            '../.tmp/component.js'
         ],
         exclude: [],
         reporters: ['dots', 'coverage'],
@@ -35,4 +34,3 @@ module.exports = function (config) {
         frameworks: ['jasmine']
     });
 };
-
