@@ -8,6 +8,7 @@ module test {
     export const directive: at.IDirectiveAnnotation = at.directive;
     export const classFactory: at.IClassFactoryAnnotation = at.classFactory;
     export const resource: at.IResourceAnnotation = at.resource;
+    export const component: at.IComponentAnnotation = at.component;
 
     angular.module('test', ['ngResource']);
 

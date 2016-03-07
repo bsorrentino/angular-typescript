@@ -1,6 +1,6 @@
 {
   "name": "angular-typescript",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "TypeScript 1.5+ annotations (decorators) for AngularJS 1.x",
   "repository": {
     "type": "git",
@@ -11,6 +11,9 @@
     "AngularJS"
   ],
   "author": "Jakub Strojewski <jakub.strojewski@gmail.com>",
+  "contributors": [
+    { "name": "bsorrentino", "email":"bartolomeo.sorrentino@gmail.com" }
+  ],
   "license": "WTFPL",
   "dependencies": {},
   "devDependencies": {
@@ -20,7 +23,7 @@
     "gulp-tslint": "4.2.2",
     "gulp-typescript": "2.10.0",
     "jasmine-core": "2.4.1",
-    "karma": "0.13.16",
+    "karma": "0.13.9",
     "karma-chrome-launcher": "0.2.2",
     "karma-coffee-preprocessor": "0.3.0",
     "karma-coverage": "0.5.3",

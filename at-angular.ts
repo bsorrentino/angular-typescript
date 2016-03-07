@@ -3,23 +3,6 @@ module at {
 
     'use strict';
 
-    const directiveProperties: string[] = [
-        'compile',
-        'controller',
-        'controllerAs',
-        'bindToController',
-        'link',
-        'priority',
-        'replace',
-        'require',
-        'restrict',
-        'scope',
-        'template',
-        'templateUrl',
-        'terminal',
-        'transclude'
-    ];
-
     /* tslint:disable:no-any */
     export interface IClassAnnotationDecorator {
         (target: any): void;
@@ -34,15 +17,14 @@ module at {
     }
 
     /**
-    return a module. If module doesn't exist it will be created
-    */
-    export function getOrCreateModule( moduleName:string, requires:string[] = []):angular.IModule {
-      var mod:angular.IModule;
+     * return a module. If module doesn't exist it will be created
+     */
+    export function getOrCreateModule( moduleName: string, requires: string[] = []): angular.IModule {
+      let mod: angular.IModule;
       try {
           mod = angular.module(moduleName);
-      }
-      catch( e ) {
-         mod = angular.module(moduleName, requires);
+      } catch ( ex ) {
+          mod = angular.module(moduleName, requires);
       }
 
       return mod;
@@ -57,8 +39,8 @@ module at {
     }
 
     /**
-    inject an argument
-    */
+     * inject an argument
+     */
     export function inject(...args: string[]): at.IClassAnnotationDecorator {
         return (target: any, key?: string, index?: number): void => {
             if (angular.isNumber(index)) {
@@ -78,8 +60,8 @@ module at {
     }
 
     /**
-    inject a service
-    */
+     * inject a service
+     */
     export function service(moduleName: string, serviceName: string): at.IClassAnnotationDecorator {
         return (target: any): void => {
            getOrCreateModule(moduleName).service( serviceName, target);
@@ -96,8 +78,8 @@ module at {
     }
 
     /**
-    Inject a controller
-    */
+     * Inject a controller
+     */
     export function controller(moduleName: string, ctrlName: string): at.IClassAnnotationDecorator {
         return (target: any): void => {
            getOrCreateModule(moduleName).controller( ctrlName, target);
@@ -106,16 +88,69 @@ module at {
     }
 
 ///////////////////////////////////////////////////////////////////////////////
+// COMPONENT ANNOTATION
+///////////////////////////////////////////////////////////////////////////////
+    const componentProperties: string[] = [
+        'controller',
+        'controllerAs',
+        'bindings',
+        'require',
+        'template',
+        'templateUrl',
+        'transclude'
+    ];
+
+    export interface IComponentAnnotation {
+        (moduleName: string, componentName: string): IClassAnnotationDecorator;
+    }
+
+    /**
+     * inject a component
+     */
+    export function component(moduleName: string, componentName: string): at.IClassAnnotationDecorator {
+        return (target: any): void => {
+            let config: angular.IComponentOptions;
+            
+            config = componentProperties.reduce((
+                config: angular.IComponentOptions,
+                property: string
+            ) => {
+                return angular.isDefined(target[property]) ? 
+                    angular.extend(config, {[property]: target[property]}) :
+                    config; 
+            }, {controller: target});
+
+            getOrCreateModule(moduleName).component(componentName, config);
+        };
+    }
+
+///////////////////////////////////////////////////////////////////////////////
 // DIRECTIVE ANNOTATION
 ///////////////////////////////////////////////////////////////////////////////
+    const directiveProperties: string[] = [
+        'compile',
+        'controller',
+        'controllerAs',
+        'bindToController',
+        'link',
+        'priority',
+        'replace',
+        'require',
+        'restrict',
+        'scope',
+        'template',
+        'templateUrl',
+        'terminal',
+        'transclude'
+    ];
 
     export interface IDirectiveAnnotation {
         (moduleName: string, directiveName: string): IClassAnnotationDecorator;
     }
 
     /**
-    inject a directive
-    */
+     * inject a directive
+     */
     export function directive(moduleName: string, directiveName: string): at.IClassAnnotationDecorator {
         return (target: any): void => {
             let config: angular.IDirective;
