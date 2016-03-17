@@ -158,30 +158,130 @@ class SomeController {
 
 ***
 
-### Directive
-
-Static class members of directive controller are used as config directive config.
+### Component
 
 ```typescript
-@directive('ngModuleName', 'atSomeDirective')
-class SomeDirectiveController {
+@at.component(moduleName, 'featureTest', {
+  template: () => '<span>{{ $ctrl.test }}</span>'
+})
+@at.inject('$log')
+export class Feature1Component implements at.IComponent {
 
-    public static controllerAs: 'someDirectiveCtrl';
-    public static templateUrl: string = '/partials/some-directive.html';
-    public static link: angular.IDirectiveLinkFn = (scope, element, attrs, ctrl: SomeDirectiveController) => {
-        ctrl.init(attrs.atSomeDirective);
-    };
+  // public static transclude = true;
+  // public static templateUrl = "components/feature1/feature-test.html";
 
-    constructor(
-        @inject('$scope') private $$scope: angular.IScope,
-        @inject('$parse') private $$parse: angular.IParseService
-    ) {
-        // do stuff with $$scope and $$parse;
-    }
+  public test = 'Feature1Component';
 
-    public init(anArg: string): boolean {
-        // do some stuff with this.$$parse and this.$$scope
-    }
+  public static template: angular.IComponentTemplateFn = () => {
+    return '<span>{{ $ctrl.name }}</span>';
+  };
+
+  constructor(private log: angular.ILogService) {
+    log.debug('Feature1 constructor');
+  }
+
+  public $onInit(): void {
+    this.log.debug('Feature1 $onInit');
+  }
+
+}
+```
+
+***
+
+### Filter
+
+```typescript
+mport ngModuleName from './example.module';
+
+'use strict';
+
+const ngFilterName = 'example';
+
+@at.filter(ngModuleName, ngFilterName)
+@at.inject('$log')
+export default class ExampleFilter implements at.IFilter {
+
+  constructor(private log: angular.ILogService) {
+    log.debug(['ngFilter', ngFilterName, 'loaded'].join(' '));
+  }
+
+  public transform = (input: string | Array<any>): number => !input ? 0 : input.length;
+
+}
+```
+
+***
+
+### Provider
+
+```typescript
+import ngModuleName from './example.module';
+
+'use strict';
+
+// the provider will be available as 'sampleProvider'
+// the created service will be available as 'sample'
+const ngProviderName = 'sample';
+
+interface IExampleProvider extends angular.IServiceProvider {
+  makeNoise(value: boolean): void;
+}
+
+@at.provider(ngModuleName, ngProviderName)
+export class ExampleProvider implements IExampleProvider {
+  private notify = true;
+
+  constructor() {
+    this.notify = true;
+  }
+
+  public makeNoise(value: boolean): void {
+    this.notify = value;
+  }
+
+  // $get must be declared as method, not as function property (eg. `$get = () => new Service();`)
+  @at.injectMethod('$log')
+  public $get(log: angular.ILogService) {
+    return new ExampleProviderService(log, this.notify);
+  }
+}
+
+export default class ExampleProviderService {
+  constructor(private log: angular.ILogService, private notify: boolean) {
+    let s = ['ngProvider', ngProviderName, 'has loaded an', 'ExampleProviderService'].join(' ');
+    if (notify)
+      log.info(s);
+    else
+      log.debug(s);
+  }
+}
+
+```
+
+***
+
+### Directive
+
+```typescript
+import ngModuleName from './message.module';
+
+'use strict';
+
+const ngDirectiveName = 'tsfnMessageSection';
+
+@at.directive(ngModuleName, ngDirectiveName, {
+  restrict: 'E',
+  scope: {},
+  bindToController: {
+    title: '@',
+    theme: '@',
+    messages: '='
+  },
+  templateUrl: 'message/message-section.directive.html'
+})
+
+export default class MessagesSectionDirective {
 
 }
 ```
