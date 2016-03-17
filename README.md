@@ -167,9 +167,6 @@ class SomeController {
 @at.inject('$log')
 export class Feature1Component implements at.IComponent {
 
-  // public static transclude = true;
-  // public static templateUrl = "components/feature1/feature-test.html";
-
   public test = 'Feature1Component';
 
   public static template: angular.IComponentTemplateFn = () => {
