@@ -15,7 +15,7 @@ Angular-TypeScript
 
 
 
-> TypeScript 1.7+ annotations (decorators) for AngularJS 1.x 
+> TypeScript 1.7+ annotations (decorators) for AngularJS 1.5
 
 What ?
 ------
@@ -26,15 +26,29 @@ What ?
 @at.service(moduleName: string, serviceName: string)
 @at.inject(dependencyOne: string, ...dependencies?: string[])
 @at.controller(moduleName: string, controllerName: string)
-@at.directive(moduleName: string, directiveName: string)
-@at.classFactory(moduleName: string, className: string)
+@at.directive(moduleName: string, directiveName: string, directiveConfig?: angular.IDirective)
 @at.resource(moduleName: string, resourceClassName: string)
+
+@at.provider(moduleName: string, providerName: string)
+@at.filter(moduleName: string, filterName: string)
+@at.filter(moduleName: string, filterName: string)
+
+@at.component(moduleName: string, componentName: string, componentConfig?: angular.IComponentOptions)
+
+@at.valueObj(moduleName: string, valueName: string)
+@at.valueProp(moduleName: string, valueName?: string)
+@at.valueFunc(moduleName: string, valueName?: string)
+
+@at.constantObj(moduleName: string, valueName: string)
+@at.constantProp(moduleName: string, valueName?: string)
+@at.constantFunc(moduleName: string, valueName?: string)
+
 ```
 
 Why ?
 -----
 
-Purpose of those decorators is to remove some ugly boilerplate from AngularJS applications written in TypeScript.
+Purpose of those decorators is to remove some ugly boilerplate from AngularJS applications written in TypeScript and in the same time promoting use a programming model  as close as possible to  AngularJS 2
 
 How ?
 -----
@@ -49,7 +63,7 @@ class SomeService {
     constructor() {
         // do stuff $http and $parse
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff
     }
@@ -68,7 +82,7 @@ class SomeService {
     constructor() {
         // do stuff
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff
     }
@@ -90,7 +104,7 @@ class SomeService {
     ) {
         // do stuff with $http and $$parse;
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff with this.$$parse
     }
@@ -106,12 +120,12 @@ or
 class SomeService {
 
     constructor(
-        $http: angular.IHttpService, 
+        $http: angular.IHttpService,
         private $$parse: angular.IParseService
     ) {
         // do stuff with $http and $$parse;
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff with this.$$parse();
     }
@@ -134,7 +148,7 @@ class SomeController {
     ) {
         // do stuff with $scope and $$parse;
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff with this.$$parse();
     }
@@ -164,7 +178,7 @@ class SomeDirectiveController {
     ) {
         // do stuff with $$scope and $$parse;
     }
-    
+
     public init(anArg: string): boolean {
         // do some stuff with this.$$parse and this.$$scope
     }
@@ -174,44 +188,10 @@ class SomeDirectiveController {
 
 ***
 
-### ClassFactory
-
-If you use constructors/classes to create common entities a @classFactory can be useful. It passes constructor as angular service and attaches @inject's to it's prototype with leading '$$'.
-
-```typescript
-@classFactory('test', 'Headers')
-@inject('$http', '$parse')
-class Headers {
-
-    public accept: string;
-
-    private $$http: angular.IHttpService;
-    private $$parse: angular.IParseService;
-
-    constructor() {
-        this.accept = this.$$parse('defaults.headers.common.Accept')(this.$$http);
-    }
-
-}
-```
-
-and the somewhere else:
-
-```typescript
-    …
-    constructor(
-        @inject('Headers') Headers: Headers
-    ) {
-        this.headers = new Headers();
-    }
-    …
-```
-
-***
 
 ### Resource
 
-This one is somehow similar to @classFactory, but it also encapsulates magic powers of angular $resource. $resource configs are gathered from static class members (just like in @directive decorator).
+It encapsulates magic powers of angular $resource. $resource configs are gathered from static class members.
 
 ```typescript
 @resource('test', 'UserResource')
@@ -241,4 +221,3 @@ class UserResource extends at.Resource {
 ```
 
 ***
-
