@@ -1,4 +1,3 @@
-/// <reference path="../typings/main.d.ts" />
 declare module at {
     interface IClassAnnotationDecorator {
         (target: any): void;
@@ -54,8 +53,42 @@ declare module at {
         (moduleName: string, ctrlName: string): IClassAnnotationDecorator;
     }
     function controller(moduleName: string, ctrlName: string): at.IClassAnnotationDecorator;
-    interface IComponent {
-        $onInit?(): void;
+    interface OnInit {
+        $onInit(): void;
+    }
+    interface RouteData {
+        data: {
+            [key: string]: any;
+        };
+        get(key: string): any;
+    }
+    interface ComponentInstruction {
+        reuse: boolean;
+        routeData: RouteData;
+        urlPath: string;
+        urlParams: string[];
+        data: RouteData;
+        componentType: any;
+        terminal: boolean;
+        specificity: number;
+        params: {
+            [key: string]: any;
+        };
+    }
+    interface OnActivate {
+        $routerOnActivate(next?: ComponentInstruction, prev?: ComponentInstruction): any;
+    }
+    interface CanDeactivate {
+        $routerCanDeactivate(next?: ComponentInstruction, prev?: ComponentInstruction): boolean | angular.IPromise<boolean>;
+    }
+    interface OnDeactivate {
+        $routerOnDeactivate(next?: ComponentInstruction, prev?: ComponentInstruction): any;
+    }
+    interface CanReuse {
+        $routerCanReuse(next?: ComponentInstruction, prev?: ComponentInstruction): boolean | angular.IPromise<boolean>;
+    }
+    interface OnReuse {
+        $routerOnReuse(next?: ComponentInstruction, prev?: ComponentInstruction): any;
     }
     interface IComponentAnnotation {
         (moduleName: string, componentName: string): IClassAnnotationDecorator;

@@ -16,7 +16,7 @@ var tsProject = ts.createProject('tsconfig.json', {
 
 
 gulp.task('ts-test', function() {
-    var stream = gulp.src(['src/at-*.ts', 'test/**/*.ts'])
+    var stream = gulp.src(['src/at-*.ts', 'typings/browser.d.ts', 'typings/browser/**/*.d.ts', 'test/**/*.ts'])
   .pipe(sourcemaps.init())
   .pipe(ts(tsProject));
 
@@ -31,7 +31,7 @@ gulp.task('ts-test', function() {
 });
 
 gulp.task('ts-build', ['clean', 'ts-test'], function() {
-   var stream = gulp.src(['src/at-*.ts'])
+   var stream = gulp.src(['src/at-*.ts', 'typings/browser.d.ts', 'typings/browser/**/*.d.ts'])
   .pipe(sourcemaps.init())
   .pipe(ts(tsProject));
 

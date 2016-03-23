@@ -1,4 +1,3 @@
-/// <reference path="../typings/main.d.ts" />
 declare module at {
     type ResourceArray = angular.resource.IResourceArray<any>;
     class Resource implements angular.resource.IResource<Resource> {

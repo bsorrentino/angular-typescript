@@ -28,7 +28,8 @@
   "dependencies": {
     "angular": "^1.5.2",
     "angular-mocks": "^1.5.0",
-    "angular-resource": "^1.5.2"
+    "angular-resource": "^1.5.2",
+    "phantomjs": "^1.9.19"
   },
   "scripts": {
     "lint": "gulp lint",
