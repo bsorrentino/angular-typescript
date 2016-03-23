@@ -1,5 +1,3 @@
-/// <reference path="../typings/browser.d.ts"/>
-
 module test {
 
     'use strict';
@@ -18,7 +16,7 @@ module test {
             this.name = 'FirstTestCtrl';
         }
 
-        public $onInit(): void  {
+        public $onInit(): void {
         }
 
     }
@@ -27,9 +25,9 @@ module test {
 
 describe('test-component', () => {
 
-  it('TestComponent must be defned', () => {
-    expect( test.TestComponent ).toBeDefined();
-  });
+    it('TestComponent must be defned', () => {
+        expect(test.TestComponent).toBeDefined();
+    });
 
 });
 
