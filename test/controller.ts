@@ -1,3 +1,5 @@
+/// <reference path="../typings/main.d.ts"/>
+
 module test {
 
     'use strict';
@@ -8,7 +10,7 @@ module test {
 
     @controller('test', 'FirstTestCtrl')
     @inject('$scope', '$parse')
-    export class FirstTestCtrl {
+    class FirstTestCtrl {
 
         constructor(
             $scope: IFirstScope,

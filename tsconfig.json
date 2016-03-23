@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+  "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
         "moduleResolution": "node",
@@ -13,11 +13,14 @@
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true
-    },
-    "exclude": [
-        "node_modules",
-        "ts"
-    ],
+  },
+  "exclude": [
+    "node_modules",
+    "test",
+    "lib",
+    "typings",
+    "doc"
+  ],
     "compileOnSave": false,
     "buildOnSave": false,
     "atom": {
