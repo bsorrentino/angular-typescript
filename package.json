@@ -8,10 +8,7 @@
   },
   "keywords": [
     "TypeScript",
-    "AngularJS",
-    "babel",
-    "es6",
-    "es7"
+    "AngularJS"
   ],
   "author": "Jakub Strojewski <jakub.strojewski@gmail.com>",
   "contributors": [
