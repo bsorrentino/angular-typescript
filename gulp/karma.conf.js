@@ -2,11 +2,11 @@ module.exports = function (config) {
     config.set({
         basePath: '',
         files: [
-            '../bower_components/angular/angular.js',
+            '../node_modules/angular/angular.js',
             '../.tmp/at-angular.js',
-            '../bower_components/angular-resource/angular-resource.js',
+            '../node_modules/angular-resource/angular-resource.js',
             '../.tmp/at-angular-resource.js',
-            '../bower_components/angular-mocks/angular-mocks.js',
+            '../node_modules/angular-mocks/angular-mocks.js',
             '../.tmp/module.js',
             '../.tmp/component.js'
         ],

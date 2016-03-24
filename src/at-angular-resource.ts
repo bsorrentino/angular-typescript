@@ -1,11 +1,10 @@
-
 module at {
 
   'use strict';
 
   /* tslint:disable:no-any */
   type ResourceClass = angular.resource.IResourceClass<any>;
-  type ResourceArray = angular.resource.IResourceArray<any>;
+  export type ResourceArray = angular.resource.IResourceArray<any>;
   type ResourceService = angular.resource.IResourceService;
 
   /* istanbul ignore next */
