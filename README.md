@@ -15,7 +15,7 @@ Angular-TypeScript
 
 
 
-> TypeScript 1.7+ annotations (decorators) for AngularJS 1.x 
+> TypeScript 1.7+ annotations (decorators) for AngularJS 1.5
 
 What ?
 ------
@@ -26,15 +26,29 @@ What ?
 @at.service(moduleName: string, serviceName: string)
 @at.inject(dependencyOne: string, ...dependencies?: string[])
 @at.controller(moduleName: string, controllerName: string)
-@at.directive(moduleName: string, directiveName: string)
-@at.classFactory(moduleName: string, className: string)
+@at.directive(moduleName: string, directiveName: string, directiveConfig?: angular.IDirective)
 @at.resource(moduleName: string, resourceClassName: string)
+
+@at.provider(moduleName: string, providerName: string)
+@at.filter(moduleName: string, filterName: string)
+@at.filter(moduleName: string, filterName: string)
+
+@at.component(moduleName: string, componentName: string, componentConfig?: angular.IComponentOptions)
+
+@at.valueObj(moduleName: string, valueName: string)
+@at.valueProp(moduleName: string, valueName?: string)
+@at.valueFunc(moduleName: string, valueName?: string)
+
+@at.constantObj(moduleName: string, valueName: string)
+@at.constantProp(moduleName: string, valueName?: string)
+@at.constantFunc(moduleName: string, valueName?: string)
+
 ```
 
 Why ?
 -----
 
-Purpose of those decorators is to remove some ugly boilerplate from AngularJS applications written in TypeScript.
+Purpose of those decorators is to remove some ugly boilerplate from AngularJS applications written in TypeScript and in the same time promoting use a programming model  as close as possible to  AngularJS 2
 
 How ?
 -----
@@ -49,7 +63,7 @@ class SomeService {
     constructor() {
         // do stuff $http and $parse
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff
     }
@@ -68,7 +82,7 @@ class SomeService {
     constructor() {
         // do stuff
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff
     }
@@ -90,7 +104,7 @@ class SomeService {
     ) {
         // do stuff with $http and $$parse;
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff with this.$$parse
     }
@@ -106,12 +120,12 @@ or
 class SomeService {
 
     constructor(
-        $http: angular.IHttpService, 
+        $http: angular.IHttpService,
         private $$parse: angular.IParseService
     ) {
         // do stuff with $http and $$parse;
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff with this.$$parse();
     }
@@ -134,7 +148,7 @@ class SomeController {
     ) {
         // do stuff with $scope and $$parse;
     }
-    
+
     public someMethod(anArg: number): boolean {
         // do some stuff with this.$$parse();
     }
@@ -144,74 +158,137 @@ class SomeController {
 
 ***
 
+### Component
+
+```typescript
+@at.component(moduleName, 'featureTest', {
+  template: () => '<span>{{ $ctrl.test }}</span>'
+})
+@at.inject('$log')
+export class Feature1Component implements at.IComponent {
+
+  public test = 'Feature1Component';
+
+  public static template: angular.IComponentTemplateFn = () => {
+    return '<span>{{ $ctrl.name }}</span>';
+  };
+
+  constructor(private log: angular.ILogService) {
+    log.debug('Feature1 constructor');
+  }
+
+  public $onInit(): void {
+    this.log.debug('Feature1 $onInit');
+  }
+
+}
+```
+
+***
+
+### Filter
+
+```typescript
+mport ngModuleName from './example.module';
+
+'use strict';
+
+const ngFilterName = 'example';
+
+@at.filter(ngModuleName, ngFilterName)
+@at.inject('$log')
+export default class ExampleFilter implements at.IFilter {
+
+  constructor(private log: angular.ILogService) {
+    log.debug(['ngFilter', ngFilterName, 'loaded'].join(' '));
+  }
+
+  public transform = (input: string | Array<any>): number => !input ? 0 : input.length;
+
+}
+```
+
+***
+
+### Provider
+
+```typescript
+import ngModuleName from './example.module';
+
+'use strict';
+
+// the provider will be available as 'sampleProvider'
+// the created service will be available as 'sample'
+const ngProviderName = 'sample';
+
+interface IExampleProvider extends angular.IServiceProvider {
+  makeNoise(value: boolean): void;
+}
+
+@at.provider(ngModuleName, ngProviderName)
+export class ExampleProvider implements IExampleProvider {
+  private notify = true;
+
+  constructor() {
+    this.notify = true;
+  }
+
+  public makeNoise(value: boolean): void {
+    this.notify = value;
+  }
+
+  // $get must be declared as method, not as function property (eg. `$get = () => new Service();`)
+  @at.injectMethod('$log')
+  public $get(log: angular.ILogService) {
+    return new ExampleProviderService(log, this.notify);
+  }
+}
+
+export default class ExampleProviderService {
+  constructor(private log: angular.ILogService, private notify: boolean) {
+    let s = ['ngProvider', ngProviderName, 'has loaded an', 'ExampleProviderService'].join(' ');
+    if (notify)
+      log.info(s);
+    else
+      log.debug(s);
+  }
+}
+
+```
+
+***
+
 ### Directive
 
-Static class members of directive controller are used as config directive config.
-
 ```typescript
-@directive('ngModuleName', 'atSomeDirective')
-class SomeDirectiveController {
+import ngModuleName from './message.module';
 
-    public static controllerAs: 'someDirectiveCtrl';
-    public static templateUrl: string = '/partials/some-directive.html';
-    public static link: angular.IDirectiveLinkFn = (scope, element, attrs, ctrl: SomeDirectiveController) => {
-        ctrl.init(attrs.atSomeDirective);
-    };
+'use strict';
 
-    constructor(
-        @inject('$scope') private $$scope: angular.IScope,
-        @inject('$parse') private $$parse: angular.IParseService
-    ) {
-        // do stuff with $$scope and $$parse;
-    }
-    
-    public init(anArg: string): boolean {
-        // do some stuff with this.$$parse and this.$$scope
-    }
+const ngDirectiveName = 'tsfnMessageSection';
+
+@at.directive(ngModuleName, ngDirectiveName, {
+  restrict: 'E',
+  scope: {},
+  bindToController: {
+    title: '@',
+    theme: '@',
+    messages: '='
+  },
+  templateUrl: 'message/message-section.directive.html'
+})
+
+export default class MessagesSectionDirective {
 
 }
 ```
 
 ***
 
-### ClassFactory
-
-If you use constructors/classes to create common entities a @classFactory can be useful. It passes constructor as angular service and attaches @inject's to it's prototype with leading '$$'.
-
-```typescript
-@classFactory('test', 'Headers')
-@inject('$http', '$parse')
-class Headers {
-
-    public accept: string;
-
-    private $$http: angular.IHttpService;
-    private $$parse: angular.IParseService;
-
-    constructor() {
-        this.accept = this.$$parse('defaults.headers.common.Accept')(this.$$http);
-    }
-
-}
-```
-
-and the somewhere else:
-
-```typescript
-    …
-    constructor(
-        @inject('Headers') Headers: Headers
-    ) {
-        this.headers = new Headers();
-    }
-    …
-```
-
-***
 
 ### Resource
 
-This one is somehow similar to @classFactory, but it also encapsulates magic powers of angular $resource. $resource configs are gathered from static class members (just like in @directive decorator).
+It encapsulates magic powers of angular $resource. $resource configs are gathered from static class members.
 
 ```typescript
 @resource('test', 'UserResource')
@@ -241,4 +318,3 @@ class UserResource extends at.Resource {
 ```
 
 ***
-
