@@ -11,7 +11,7 @@ module test {
 
     @resource('test', 'TestResourceOne')
     @inject('$http', '$parse')
-    export class TestResourceOne implements ITestModel {
+    class TestResourceOne implements ITestModel {
         // And to keep proper type, you may add "extends at.Resource"
 
         public static url: string = '/fake/url';

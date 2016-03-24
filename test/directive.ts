@@ -7,7 +7,7 @@ module test {
     }
 
     @directive('test', 'atTestComponent')
-    export class TestComponentCtrl {
+    class TestComponentCtrl {
 
         // Static fields hold directive configuration
         public static controller: string = 'TestComponentCtrl as ctrl';
@@ -32,12 +32,12 @@ module test {
         public name: string;
 
         constructor(
-            @inject('$scope') $scope: IFirstComponentScope,
+            @inject('$scope') $scope1: IFirstComponentScope,
             /* tslint:disable:variable-name */
             @inject('$parse') private $$parse: angular.IParseService
             /* tslint:enable:variable-name */
         ) {
-            $scope.name = this.name = 'FirstTestCtrl';
+            $scope1.name = this.name = 'FirstTestCtrl';
         }
 
         public setCtrlName(name: string): void {
