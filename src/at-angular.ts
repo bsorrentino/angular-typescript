@@ -219,10 +219,11 @@ module at {
   export interface IChange<T> {
       currentValue: T;
       previousValue: T;
+      isFirstChange(): boolean;
   }
 
   export interface OnChanges {
-    $onChanges(changes): void;
+    $onChanges(changes: {[boundObjName: string]: IChange<any>}): void;
   }
 
   export interface OnDestroy {

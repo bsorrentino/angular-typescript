@@ -59,9 +59,12 @@ declare module at {
     interface IChange<T> {
         currentValue: T;
         previousValue: T;
+        isFirstChange(): boolean;
     }
     interface OnChanges {
-        $onChanges(changes: any): void;
+        $onChanges(changes: {
+            [boundObjName: string]: IChange<any>;
+        }): void;
     }
     interface OnDestroy {
         $onDestroy(): void;
