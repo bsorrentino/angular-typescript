@@ -216,6 +216,20 @@ module at {
     $onInit(): void;
   }
 
+  export interface IChange<T> {
+      currentValue: T;
+      previousValue: T;
+      isFirstChange(): boolean;
+  }
+
+  export interface OnChanges {
+    $onChanges(changes: {[boundObjName: string]: IChange<any>}): void;
+  }
+
+  export interface OnDestroy {
+    $onDestroy(): void;
+  }
+
   /**
    * RouteData is an immutable map of additional data you can configure in your Route.
    * You can inject RouteData into the constructor of a component to use it.
