@@ -56,6 +56,19 @@ declare module at {
     interface OnInit {
         $onInit(): void;
     }
+    interface IChange<T> {
+        currentValue: T;
+        previousValue: T;
+        isFirstChange(): boolean;
+    }
+    interface OnChanges {
+        $onChanges(changes: {
+            [boundObjName: string]: IChange<any>;
+        }): void;
+    }
+    interface OnDestroy {
+        $onDestroy(): void;
+    }
     interface RouteData {
         data: {
             [key: string]: any;
