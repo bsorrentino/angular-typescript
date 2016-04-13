@@ -16,6 +16,7 @@ declare module at {
     }
     function inject(...args: string[]): at.IClassAnnotationDecorator;
     function injectMethod(...args: string[]): at.IMethodAnnotationDecorator;
+    function action(description: string): at.IMethodAnnotationDecorator;
     interface IServiceAnnotation {
         (moduleName: string, serviceName: string): IClassAnnotationDecorator;
     }

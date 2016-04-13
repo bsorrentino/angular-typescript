@@ -65,6 +65,12 @@ module at {
     };
   }
 
+  export function action(description: string): at.IMethodAnnotationDecorator {
+    return (target: any, key: string, descriptor: TypedPropertyDescriptor<any>): void => {
+      target[key].description = description;
+    };
+  }
+
   ///////////////////////////////////////////////////////////////////////////////
   // SERVICE ANNOTATION
   ///////////////////////////////////////////////////////////////////////////////
