@@ -65,10 +65,22 @@ module at {
     };
   }
 
+  ///////////////////////////////////////////////////////////////////////////////
+  // ERROR HANDLING ANNOTATION
+  ///////////////////////////////////////////////////////////////////////////////
+
   export function action(description: string): at.IMethodAnnotationDecorator {
     return (target: any, key: string, descriptor: TypedPropertyDescriptor<any>): void => {
       target[key].description = description;
     };
+  }
+
+  export function failSafe(moduleName: string, serviceName: string, handlerProviderName = 'exceptionHandlerProvider'): at.IClassAnnotationDecorator {
+      return (target: any): void => {
+          getOrCreateModule(moduleName).config([handlerProviderName, '$provide', (exceptionHandlerProvider, $provide) => {
+              exceptionHandlerProvider.decorate($provide, [serviceName]);
+          }]);
+      };
   }
 
   ///////////////////////////////////////////////////////////////////////////////
