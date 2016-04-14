@@ -182,7 +182,7 @@ module at {
 
   export function constantObj(moduleName: string, valueName: string): at.IClassAnnotationDecorator {
     return (target: any): void => {
-      getOrCreateModule(moduleName).constant(valueName, target);
+      getOrCreateModule(moduleName).constant(valueName, new target());
     };
   }
 
