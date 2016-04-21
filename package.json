@@ -1,7 +1,7 @@
 {
-  "name": "angular-typescript",
+  "name": "angular15-typescript",
   "version": "0.4.0",
-  "description": "TypeScript 1.5+ annotations (decorators) for AngularJS 1.x",
+  "description": "TypeScript 1.5+ annotations (decorators) for AngularJS 1.5+",
   "repository": {
     "type": "git",
     "url": "git://github.com/ulfryk/angular-typescript.git"
