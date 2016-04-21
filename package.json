@@ -8,12 +8,13 @@
   },
   "keywords": [
     "TypeScript",
-    "AngularJS"
+    "AngularJS 1.5"
   ],
   "author": "Jakub Strojewski <jakub.strojewski@gmail.com>",
   "contributors": [
     { "name": "bsorrentino", "email":"bartolomeo.sorrentino@gmail.com" },
-    { "name": "lucaoliano", "email": "lucaoliano@hotmail.it" }
+    { "name": "lucaoliano", "email": "lucaoliano@hotmail.it" },
+    { "name": "fr-esco", "email": "f.colamonici@gmail.com" }
   ],
   "license": "WTFPL",
   "dependencies": {
