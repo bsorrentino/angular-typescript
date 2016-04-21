@@ -1,16 +1,18 @@
-# Angular-TypeScript
+# Angular15-TypeScript
 
-> TypeScript 1.7+ annotations (decorators) for AngularJS 1.5
+TypeScript 1.7+ annotations (decorators) for AngularJS 1.5
+
+> Such project is an extension of the [angular-typescript](https://github.com/ulfryk/angular-typescript) from [ulfryk](https://github.com/ulfryk) to support new Angular 1.5 features (mainly the **component** element)
 
 ## install from npm
 
 ```
-npm install git+https://github.com/bsorrentino/angular-typescript.git#develop
+npm install angular15-typescript
 ```
 
 ## Available Decorators
 
-**angular-typescript** provides annotation like decorators:
+**angular15-typescript** provides annotation like decorators:
 
 ```
 @at.service(moduleName: string, serviceName: string)
