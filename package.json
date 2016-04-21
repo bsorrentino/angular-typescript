@@ -1,19 +1,20 @@
 {
-  "name": "angular-typescript",
+  "name": "angular15-typescript",
   "version": "0.4.0",
-  "description": "TypeScript 1.5+ annotations (decorators) for AngularJS 1.x",
+  "description": "TypeScript 1.5+ annotations (decorators) for AngularJS 1.5+",
   "repository": {
     "type": "git",
     "url": "git://github.com/ulfryk/angular-typescript.git"
   },
   "keywords": [
     "TypeScript",
-    "AngularJS"
+    "AngularJS 1.5"
   ],
   "author": "Jakub Strojewski <jakub.strojewski@gmail.com>",
   "contributors": [
     { "name": "bsorrentino", "email":"bartolomeo.sorrentino@gmail.com" },
-    { "name": "lucaoliano", "email": "lucaoliano@hotmail.it" }
+    { "name": "lucaoliano", "email": "lucaoliano@hotmail.it" },
+    { "name": "fr-esco", "email": "f.colamonici@gmail.com" }
   ],
   "license": "WTFPL",
   "dependencies": {
