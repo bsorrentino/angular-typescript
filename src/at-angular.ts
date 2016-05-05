@@ -450,13 +450,16 @@ module at {
       } else {
         directiveConfig && (directiveConfig.controller = target);
       }
-      if (!ctrlAs) {
+
+      // let attribute-directives not have ctrlAs by setting this property to 'false'
+      if (ctrlAs === undefined || ctrlAs === null) {
         ctrlAs = angular.isString(ctrlCfg) ? ctrlCfg.split(' ').pop() : null;
         if (!ctrlAs) {
-          if (directiveConfig)
+          if (directiveConfig) {
             directiveConfig.controllerAs = 'vm';
-          else
+          } else {
             target.controllerAs = 'vm';
+          }
         }
       }
 
