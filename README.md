@@ -15,26 +15,20 @@ npm install angular15-typescript
 **angular15-typescript** provides annotation like decorators:
 
 ```
-@at.service(moduleName: string, serviceName: string)
-@at.inject(dependencyOne: string, ...dependencies?: string[])
-@at.controller(moduleName: string, controllerName: string)
-@at.directive(moduleName: string, directiveName: string, directiveConfig?: angular.IDirective)
-@at.resource(moduleName: string, resourceClassName: string)
-
-@at.provider(moduleName: string, providerName: string)
-@at.filter(moduleName: string, filterName: string)
-@at.filter(moduleName: string, filterName: string)
-
 @at.component(moduleName: string, componentName: string, componentConfig?: angular.IComponentOptions)
-
-@at.valueObj(moduleName: string, valueName: string)
-@at.valueProp(moduleName: string, valueName?: string)
-@at.valueFunc(moduleName: string, valueName?: string)
-
+@at.constantFunc(moduleName: string, valueName?: string)
 @at.constantObj(moduleName: string, valueName: string)
 @at.constantProp(moduleName: string, valueName?: string)
-@at.constantFunc(moduleName: string, valueName?: string)
-
+@at.controller(moduleName: string, controllerName: string)
+@at.directive(moduleName: string, directiveName: string, directiveConfig?: angular.IDirective)
+@at.filter(moduleName: string, filterName: string)
+@at.inject(dependencyOne: string, ...dependencies?: string[])
+@at.provider(moduleName: string, providerName: string)
+@at.resource(moduleName: string, resourceClassName: string)
+@at.service(moduleName: string, serviceName: string)
+@at.valueFunc(moduleName: string, valueName?: string)
+@at.valueObj(moduleName: string, valueName: string)
+@at.valueProp(moduleName: string, valueName?: string)
 ```
 
 ## Goal
