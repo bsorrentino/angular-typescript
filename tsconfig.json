@@ -18,7 +18,6 @@
     "node_modules",
     "test",
     "lib",
-    "typings",
     "doc"
   ],
     "compileOnSave": false,
